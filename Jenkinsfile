@@ -4,6 +4,12 @@ def ANSIBLE_CONFIG_PATH
 pipeline {
     agent any
 
+    options {
+        gitLabConnection('gitlab.com')
+        gitlabBuilds(builds: ['prepare-build-environment', 'nfs deploy'])
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+        }
+
     stages {
         stage('Checkout') {
             post {
@@ -48,17 +54,17 @@ pipeline {
                             echo "ANSIBLE_ROLES_PATH : ${ANSIBLE_ROLES_PATH}"
 
                             wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
-                                if (DEPLOY_NFS.toString()=='true') {
-                                    ansiblePlaybook( 
-                                        playbook: 'plays/install-nfs-playbook.yml',
-                                        inventory: 'inventaires/inventaire-prod.yaml', 
-                                        become: true,
-                                        becomeUser: "root",
-                                        sudoUser: "root",
-                                        colorized: true,
-                                        extras: '-u centos -vv --become-method sudo'
-                                    )
-                                }
+                                
+                                ansiblePlaybook( 
+                                    playbook: 'plays/install-nfs-playbook.yml',
+                                    inventory: 'inventaires/inventaire-prod.yaml', 
+                                    become: true,
+                                    becomeUser: "root",
+                                    sudoUser: "root",
+                                    colorized: true,
+                                    extras: '-u centos -vv --become-method sudo'
+                                )
+                                
                             }
                         }
                     }
