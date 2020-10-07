@@ -5,7 +5,7 @@ pipeline {
     agent any
 
     options {
-        gitLabConnection('gitlab.com')
+        gitLabConnection('jenkins_gitlab_access')
         gitlabBuilds(builds: ['prepare-build-environment', 'nfs deploy'])
         buildDiscarder(logRotator(numToKeepStr: '10'))
         }
