@@ -24,6 +24,50 @@ pipeline {
                 }
             }
         }
+         stage('NFS Deploy') {
+            post {
+                failure {
+                    updateGitlabCommitStatus name: 'nfs deploy', state: 'failed'
+                }
+                success {
+                    updateGitlabCommitStatus name: 'nfs deploy', state: 'success'
+                }
+            }
+            when {
+                anyOf {
+                    branch 'master'
+                }
+            }
+            environment {
+                ANSIBLE_ROLES_PATH = "$BUILD_CURRENT_DIR"
+            }
+            steps {
+                gitlabBuilds(builds: ['nfs deploy']) {
+                    gitlabCommitStatus("nfs deploy") {
+                        script {
+                            echo "ANSIBLE_ROLES_PATH : ${ANSIBLE_ROLES_PATH}"
+
+                            wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
+                                if (DEPLOY_NFS.toString()=='true') {
+                                    ansiblePlaybook( 
+                                        playbook: 'plays/install-nfs-playbook.yml',
+                                        inventory: 'inventaires/inventaire-prod.yaml', 
+                                        become: true,
+                                        becomeUser: "root",
+                                        sudoUser: "root",
+                                        colorized: true,
+                                        extras: '-u centos -vv --become-method sudo'
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+                
+            }
+        }
+
+
     }
 
 
