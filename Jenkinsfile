@@ -57,12 +57,12 @@ pipeline {
                                 
                                 ansiblePlaybook( 
                                     playbook: 'plays/install-nfs-playbook.yml',
-                                    inventory: 'inventaires/inventaire-prod.yaml', 
+                                   // inventory: 'inventaires/inventaire-prod.yaml', 
                                     become: true,
                                     becomeUser: "root",
                                     sudoUser: "root",
                                     colorized: true,
-                                    extras: '-u centos -vv --become-method sudo'
+                                    extras: '-vvv --become-method sudo'
                                 )
                                 
                             }
