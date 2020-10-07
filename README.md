@@ -1,1 +1,3 @@
-## This project contains the ansible roles to provision the necessary middleware for the platform psycho
+## Psycho Ansible ops
+
+Pipeline de déploiement des Middleware nécessaire pour faire fonctionner les applications Dakibot
