@@ -62,7 +62,7 @@ pipeline {
                                     becomeUser: "root",
                                     sudoUser: "root",
                                     colorized: true,
-                                    extras: '-vvv --become-method sudo'
+                                    extras: '-u centos -vvv --become-method sudo'
                                 )
                                 
                             }
