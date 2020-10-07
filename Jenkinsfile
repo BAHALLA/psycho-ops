@@ -62,7 +62,7 @@ pipeline {
                                     becomeUser: "root",
                                     sudoUser: "root",
                                     colorized: true,
-                                    extras: '-vvv --become yes'
+                                    //extras: '-vvv --become yes'
                                 )
                                 
                             }
