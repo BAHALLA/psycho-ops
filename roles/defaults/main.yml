@@ -1,0 +1,7 @@
+---
+    nfs_exports:
+      - device: /dev/sdb
+        mount: /mnt/nfs
+        nfs_options: "*(rw,sync,no_root_squash,no_subtree_check)"
+        fstab_options: defaults
+    
