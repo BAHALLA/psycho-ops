@@ -62,7 +62,7 @@ pipeline {
                                     becomeUser: "root",
                                     sudoUser: "root",
                                     colorized: true,
-                                    extras: '-vv --become-method sudo'
+                                    extras: '-u jenkins -vv --become-method sudo'
                                 )
                                 
                             }
