@@ -1,6 +1,6 @@
 ---
     nfs_exports:
-      - device: /dev/sde
+      - device: /dev/sdb
         mount: /mnt/nexus
         nfs_options: "*(anonuid=200,anongid=200,rw,sync,root_squash,no_subtree_check)"
         fstab_options: defaults
