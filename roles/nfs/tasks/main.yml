@@ -6,13 +6,6 @@
           - libselinux-python
         state: present
     
-    - name: Create ext4 filesystem and check disk blocks
-      filesystem:
-        fstype: ext4
-        dev: "{{ item.device }}"
-        opts: -cc
-      with_items: "{{ nfs_exports }}"
-    
     - name: Ensure directories to export exist
       file:
         path: "{{ item.mount }}"
@@ -21,16 +14,7 @@
         group: root
         mode: 0777
       with_items: "{{ nfs_exports }}"
-    
-    - name: Mount volumes
-      mount:
-        path: "{{ item.mount }}"
-        src: "{{ item.device }}"
-        fstype: ext4
-        opts: "{{ item.fstab_options }}"
-        state: mounted
-      with_items: "{{ nfs_exports }}"
-    
+
     - name: Template exports file.
       template:
         src: exports.j2
