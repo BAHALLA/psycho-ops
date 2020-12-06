@@ -11,7 +11,7 @@ spec:
   clusterIP: None
   ports:
 {% for port in service.ports %}
-    -port: {{ port.number}}
-     name: {{ port.name }}
+    - port: {{ port.number}}
+      name: {{ port.name }}
 {% endfor %}
   
