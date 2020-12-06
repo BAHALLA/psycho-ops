@@ -65,7 +65,7 @@ pipeline {
                             echo "ANSIBLE_ROLES_PATH : ${ANSIBLE_ROLES_PATH}"
 
                             wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
-                                if (${params.DEPLOY_NFS}.toString()=='true') {
+                                if ( DEPLOY_NFS.toString()=='true') {
                                     ansiblePlaybook( 
                                         playbook: 'plays/install-nfs-playbook.yml',
                                         inventory: 'inventaires/inventaire-prod.yml', 
@@ -108,7 +108,7 @@ pipeline {
                             echo "ANSIBLE_ROLES_PATH : ${ANSIBLE_ROLES_PATH}"
 
                             wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
-                                if (${params.DEPLOY_EFK}.toString() == 'true') {
+                                if ( DEPLOY_EFK.toString() == 'true') {
                                     ansiblePlaybook( 
                                         playbook: 'plays/install-efk-playbook.yml',
                                         inventory: 'inventaires/inventaire-prod.yml', 
