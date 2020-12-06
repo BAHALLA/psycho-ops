@@ -10,7 +10,7 @@ spec:
     app: {{ service.selectors.app }}
   clusterIP: None
   ports:
- {% for port in service.ports %}
+{% for port in service.ports %}
     -port: {{ port.number}}
      name: {{ port.name }}
 {% endfor %}
