@@ -10,16 +10,16 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '10'))
         }
     parameters {
-            booleanParam(
-                name: 'DEPLOY_NFS',
-                defaultValue: false,
-                description: 'Deployer le service nfs'
-            )
-            booleanParam(
-                name: 'DEPLOY_EFK',
-                defaultValue: true,
-                description: 'Deployer EFK stack'
-            )
+        booleanParam(
+            name: 'DEPLOY_NFS',
+            defaultValue: false,
+            description: 'Deployer le service nfs'
+        )
+        booleanParam(
+            name: 'DEPLOY_EFK',
+            defaultValue: true,
+            description: 'Deployer EFK stack'
+        )
     }
     stages {
         stage('Checkout') {
@@ -65,7 +65,7 @@ pipeline {
                             echo "ANSIBLE_ROLES_PATH : ${ANSIBLE_ROLES_PATH}"
 
                             wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
-                                if (DEPLOY_NFS.toString()=='true') {
+                                if (${params.DEPLOY_NFS}.toString()=='true') {
                                     ansiblePlaybook( 
                                         playbook: 'plays/install-nfs-playbook.yml',
                                         inventory: 'inventaires/inventaire-prod.yml', 
@@ -108,7 +108,7 @@ pipeline {
                             echo "ANSIBLE_ROLES_PATH : ${ANSIBLE_ROLES_PATH}"
 
                             wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
-                                if(DEPLOY_EFK.toString() == 'true') {
+                                if(${params.DEPLOY_EFK}.toString() == 'true') {
                                     ansiblePlaybook( 
                                         playbook: 'plays/install-efk-playbook.yml',
                                         inventory: 'inventaires/inventaire-prod.yml', 
