@@ -9,7 +9,18 @@ pipeline {
         gitlabBuilds(builds: ['prepare-build-environment', 'nfs deploy','efk deploy'])
         buildDiscarder(logRotator(numToKeepStr: '10'))
         }
-
+    parameters {
+            booleanParam(
+                name: 'DEPLOY_NFS',
+                defaultValue: false,
+                description: 'Deployer le service nfs'
+            )
+            booleanParam(
+                name: 'DEPLOY_EFK',
+                defaultValue: true,
+                description: 'Deployer EFK stack'
+            )
+    }
     stages {
         stage('Checkout') {
             post {
@@ -54,16 +65,17 @@ pipeline {
                             echo "ANSIBLE_ROLES_PATH : ${ANSIBLE_ROLES_PATH}"
 
                             wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
-                                
-                                ansiblePlaybook( 
-                                    playbook: 'plays/install-nfs-playbook.yml',
-                                    inventory: 'inventaires/inventaire-prod.yml', 
-                                    become: true,
-                                    becomeUser: "root",
-                                    sudoUser: "root",
-                                    colorized: true,
-                                    extras: '--become-method sudo -u root -vv'
-                                )
+                                if (DEPLOY_NFS.toString()=='true') {
+                                    ansiblePlaybook( 
+                                        playbook: 'plays/install-nfs-playbook.yml',
+                                        inventory: 'inventaires/inventaire-prod.yml', 
+                                        become: true,
+                                        becomeUser: "root",
+                                        sudoUser: "root",
+                                        colorized: true,
+                                        extras: '--become-method sudo -u root -vv'
+                                    )
+                                }
                                 
                             }
                         }
@@ -96,17 +108,17 @@ pipeline {
                             echo "ANSIBLE_ROLES_PATH : ${ANSIBLE_ROLES_PATH}"
 
                             wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
-                                
-                                ansiblePlaybook( 
-                                    playbook: 'plays/install-efk-playbook.yml',
-                                    inventory: 'inventaires/inventaire-prod.yml', 
-                                    become: true,
-                                    becomeUser: "root",
-                                    sudoUser: "root",
-                                    colorized: true,
-                                    extras: '--become-method sudo -u root -vv'
-                                )
-                                
+                                if(DEPLOY_EFK.toString() == 'true') {
+                                    ansiblePlaybook( 
+                                        playbook: 'plays/install-efk-playbook.yml',
+                                        inventory: 'inventaires/inventaire-prod.yml', 
+                                        become: true,
+                                        becomeUser: "root",
+                                        sudoUser: "root",
+                                        colorized: true,
+                                        extras: '--become-method sudo -u root -vv'
+                                    )
+                                }
                             }
                         }
                     }
