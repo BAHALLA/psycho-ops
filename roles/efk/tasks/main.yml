@@ -1,6 +1,6 @@
 ---
 - name: Deploy EFK
-  command: kubectl apply --kubeconfig={{ role_path }}/efk/files/kubeconfig -f -
+  command: kubectl apply --kubeconfig={{ role_path }}/files/kubeconfig -f -
   args:
     stdin: "{{ item }}"
   with_items:
