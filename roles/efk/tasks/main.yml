@@ -5,3 +5,5 @@
     stdin: "{{ item }}"
   with_items:
     - "{{ lookup('template', 'elasticsearch_svc.yml.j2') }}"
+    - "{{ lookup('template', 'local_storage_class.yml.j2') }}"
+    - "{{ lookup('template', 'elasticsearch_statefulset.yml.j2') }}"
