@@ -1,0 +1,17 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ service.name }}
+  namespace: {{ service.namespace }}
+  labels:
+    app: {{ service.labels.app }}
+spec:
+  selector:
+    app: {{ service.selectors.app }}
+  clusterIP: None
+  ports:
+    {% for port in service.ports %}
+     - port: {{ port.number}}
+       name: {{ port.name }}
+    {% endfor %}
+  

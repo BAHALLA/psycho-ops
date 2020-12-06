@@ -6,7 +6,7 @@ pipeline {
 
     options {
         gitLabConnection('jenkins_gitlab_access')
-        gitlabBuilds(builds: ['prepare-build-environment', 'nfs deploy'])
+        gitlabBuilds(builds: ['prepare-build-environment', 'nfs deploy','efk deploy'])
         buildDiscarder(logRotator(numToKeepStr: '10'))
         }
 
@@ -30,7 +30,7 @@ pipeline {
                 }
             }
         }
-         stage('NFS Deploy') {
+        stage('NFS Deploy') {
             post {
                 failure {
                     updateGitlabCommitStatus name: 'nfs deploy', state: 'failed'
@@ -57,6 +57,48 @@ pipeline {
                                 
                                 ansiblePlaybook( 
                                     playbook: 'plays/install-nfs-playbook.yml',
+                                    inventory: 'inventaires/inventaire-prod.yml', 
+                                    become: true,
+                                    becomeUser: "root",
+                                    sudoUser: "root",
+                                    colorized: true,
+                                    extras: '--become-method sudo -u root -vv'
+                                )
+                                
+                            }
+                        }
+                    }
+                }
+                
+            }
+        }
+         stage('NFS EFK') {
+            post {
+                failure {
+                    updateGitlabCommitStatus name: 'efk deploy', state: 'failed'
+                }
+                success {
+                    updateGitlabCommitStatus name: 'efk deploy', state: 'success'
+                }
+            }
+            when {
+                anyOf {
+                    branch 'master'
+                }
+            }
+            environment {
+                ANSIBLE_ROLES_PATH = "$BUILD_CURRENT_DIR"
+            }
+            steps {
+                gitlabBuilds(builds: ['nfs deploy']) {
+                    gitlabCommitStatus("nfs deploy") {
+                        script {
+                            echo "ANSIBLE_ROLES_PATH : ${ANSIBLE_ROLES_PATH}"
+
+                            wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
+                                
+                                ansiblePlaybook( 
+                                    playbook: 'plays/install-efk-playbook.yml',
                                     inventory: 'inventaires/inventaire-prod.yml', 
                                     become: true,
                                     becomeUser: "root",

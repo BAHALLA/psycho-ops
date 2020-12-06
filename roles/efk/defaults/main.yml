@@ -1,0 +1,13 @@
+---
+  service:
+    name: "elasticsearch"
+    namespace: "kube-logging"
+    labels: 
+      app: "elasticsearch"
+    ports:
+      - name: "rest"
+        number: 9200
+      - name: "inter-node"
+        number: 9300
+    selectors:
+      app: "elasticsearch"

@@ -1,0 +1,7 @@
+---
+    - name: Install EFK
+      hosts: efk
+    
+      roles:
+        - role: efk
+    

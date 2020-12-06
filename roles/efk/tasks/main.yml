@@ -1,0 +1,7 @@
+---
+- name: Deploy EFK
+  command: kubectl apply --kubeconfig=roles/efk/files/kubeconfig -f -
+  args:
+    stdin: "{{ item }}"
+  with_items:
+    - "{{ lookup('template', 'elasticsearch_svc.yml.j2') }}"
