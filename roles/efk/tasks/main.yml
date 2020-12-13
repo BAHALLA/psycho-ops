@@ -5,5 +5,6 @@
     stdin: "{{ item }}"
   with_items:
     - "{{ lookup('template', 'elasticsearch_persistence_volume.yml.j2') }}"
+    - "{{ lookup('template', 'elasticsearch_persistence_volume_claims.yml.j2') }}"
     - "{{ lookup('template', 'elasticsearch_svc.yml.j2') }}"
     - "{{ lookup('template', 'elasticsearch_statefulset.yml.j2') }}"
