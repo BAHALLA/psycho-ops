@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: nfs-pvc
+  name: data-es-cluster-0
   namespace: {{ service.namespace }}
 spec:
   storageClassName: nfs
