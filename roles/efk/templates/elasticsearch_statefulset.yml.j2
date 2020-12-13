@@ -40,9 +40,9 @@ spec:
               fieldRef:
                 fieldPath: metadata.name
           - name: discovery.seed_hosts
-            value: "es-cluster.elasticsearch"
+            value: "es-cluster-0.elasticsearch"
           - name: cluster.initial_master_nodes
-            value: "es-cluster"
+            value: "es-cluster-0"
           - name: ES_JAVA_OPTS
             value: "-Xms512m -Xmx512m"
       initContainers:
@@ -71,6 +71,7 @@ spec:
         app: elasticsearch
     spec:
       accessModes: [ "ReadWriteOnce" ]
+      storageClassName: nfs
       resources:
         requests:
           storage: 2Gi
