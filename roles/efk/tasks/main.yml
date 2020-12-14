@@ -8,3 +8,5 @@
     - "{{ lookup('template', 'elasticsearch_persistence_volume_claims.yml.j2') }}"
     - "{{ lookup('template', 'elasticsearch_svc.yml.j2') }}"
     - "{{ lookup('template', 'elasticsearch_statefulset.yml.j2') }}"
+    - "{{ lookup('template', 'kibana_service.yml.j2') }}"
+    - "{{ lookup('template', 'kibana_deployment.yml.j2') }}"
