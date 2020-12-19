@@ -14,5 +14,6 @@
     - "{{ lookup('template', 'fluentd_clusterrole.yml.j2') }}"
     - "{{ lookup('template', 'fluentd_clusterrolebinding.yml.j2') }}"
     - "{{ lookup('template', 'fluentd_daemonset.yml.j2') }}"
+    - "{{ lookup('template', 'counter.yml.j2') }}"
     
 
