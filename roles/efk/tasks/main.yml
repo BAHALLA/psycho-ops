@@ -10,3 +10,9 @@
     - "{{ lookup('template', 'elasticsearch_statefulset.yml.j2') }}"
     - "{{ lookup('template', 'kibana_service.yml.j2') }}"
     - "{{ lookup('template', 'kibana_deployment.yml.j2') }}"
+    - "{{ lookup('template', 'fluentd_serviceaccount.yml.j2') }}"
+    - "{{ lookup('template', 'fluentd_clusterrole.yml.j2') }}"
+    - "{{ lookup('template', 'fluentd_clusterrolebinding.yml.j2') }}"
+    - "{{ lookup('template', 'fluentd_daemonset.yml.j2') }}"
+    
+
